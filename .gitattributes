@@ -108,7 +108,7 @@ public:
         SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
         SDL_RenderClear(renderer);
 
-        // Render the map
+       
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         for (int i = 0; i < MAP_HEIGHT; ++i) {
             for (int j = 0; j < MAP_WIDTH; ++j) {
@@ -125,16 +125,16 @@ public:
     }
 
     void renderMenu() {
-        // Simple menu rendering
+       
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // Draw menu text (just an example, you need SDL_ttf to render actual text)
+       
         SDL_Rect menuRect = { WINDOW_WIDTH / 4, WINDOW_HEIGHT / 3, WINDOW_WIDTH / 2, 100 };
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &menuRect);
 
-        // Present the menu screen
+      
         SDL_RenderPresent(renderer);
     }
 
@@ -177,9 +177,9 @@ public:
             }
         }
 
-        // You can add menu-specific key handling here for resume or quit
+       
         if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_ESCAPE]) {
-            inMenu = false; // Resume the game if ESC is pressed again
+            inMenu = false;
         }
     }
 
@@ -197,7 +197,7 @@ public:
                 handleGameEvents(deltaTime);
                 renderGame();
             }
-            SDL_Delay(16); // Delay to limit FPS to 60
+            SDL_Delay(16);
         }
     }
 
@@ -215,3 +215,4 @@ int main(int argc, char* argv[]) {
     }
     return 0;
 }
+
