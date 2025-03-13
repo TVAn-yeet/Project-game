@@ -50,6 +50,7 @@ void handleGameEvents(float deltaTime) {
             dy = fox.FOX_SPEED;
         }
         fox.move(dx, dy, deltaTime,rocks);
+        
     }
 }
 void Checkend() {
