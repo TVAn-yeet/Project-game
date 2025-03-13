@@ -9,12 +9,20 @@ void handleEnd(){
                 generateRock();
                 fox.x = 0;
                 fox.y = 0;
+                
                 fox.rect.x = 0;
                 fox.rect.y = 0;
+                
                 rab.rect.x = 400;
                 rab.rect.y = 300;
+                rab.x = 400;
+                rab.y = 300;
+               
+                chose = 0;
+               
                 inMenu = true;
                 ended = false;
+                mov = { false,true,true,true };
                 break;
             }
             default:
