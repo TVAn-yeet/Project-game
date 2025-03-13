@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include "Var.h"
 #include <vector>  
+#include<iostream>
 
 class Rock {
 public:
@@ -88,16 +89,94 @@ public:
 
 class Rabbit {
 public:
-    const float RAB_SPEED = 150.0f;
+    const float RAB_SPEED = 250.0f;
     float x, y;
     SDL_Rect rect;
+    
 
     Rabbit() : x(400), y(300), rect{ 400, 300, 20, 20 } {}
 
     Rabbit(int startX, int startY) : x(startX), y(startY), rect{ static_cast<int>(x), static_cast<int>(y), 20, 20 } {}
 
-    void move(){
+    void move(float deltaTime, float foxx, float foxy,int& chose) {
         
+
+        switch (chose) {
+        case 0: { x -= RAB_SPEED * deltaTime; break;}
+        case 1: { y += RAB_SPEED * deltaTime; break;}
+        case 2: { x += RAB_SPEED * deltaTime; break;}
+        case 3: { y -= RAB_SPEED * deltaTime; break;}
+        default: break;
+        }
+      
+        if (x < 0) x = 800 - rect.w;
+        if (x + rect.w > 800) x = 0;
+        if (y < 0) y = 600 - rect.h;
+        if (y + rect.h > 600) y = 0;
+
+        rect.x = static_cast<int>(x);
+        rect.y = static_cast<int>(y);
+        
+    }
+
+    void checkmove(float foxx, float foxy, int& chose, std::vector<bool>& mov,float& nextX,float& nextY,bool& moveable) {
+       
+        
+        float maxDistance = -1;
+        nextX = x, nextY = y;
+        
+        for (int i = 0;i < 4;++i) {
+            float tempX = x, tempY = y;
+
+            
+            if (mov[i]==true) {
+                
+                switch (i) {
+                case 0: tempX -= 80; break;
+                case 1: tempY += 81; break;
+                case 2: tempX += 80; break;
+                case 3: tempY -= 81; break;
+                default: break;
+                }
+                if (tempX < 0) tempX = tempX + 800 - rect.w;
+                if (tempX + rect.w > 800) tempX = tempX + rect.w - 800;
+                if (tempY < 0) tempY = tempY + 600 - rect.h;
+                if (tempY + rect.h > 600) tempY = tempY + rect.h - 600;
+                float dist1, dist2;
+                if (tempX - foxx > 400|| tempX - foxx < -400) {
+                    dist1 =800- abs(tempX - foxx) ;
+                }
+                else {
+                    dist1 = tempX - foxx;
+                }
+                if (tempY - foxy > 300||tempY-foxy<-300) {
+                    dist2 = 600-abs(tempY - foxy) ;
+                }
+                else {
+                    dist2 = tempY - foxy;
+                }
+                float dist = dist1*dist1+dist2*dist2;
+               
+                std::cout <<i<<' ' << dist << ' ';
+                if (dist > maxDistance ) {
+                    maxDistance = dist;
+                    chose = i;
+                    
+                    nextX = tempX;
+                    nextY = tempY;
+                }
+            }
+        }     
+        for (int i = 0;i < 4;++i) {
+            if (i == chose) {
+                mov[i] = false;
+            }
+            else {
+                mov[i] = true;
+            }
+        }
+        
+        moveable = true;
     }
 
     void render(SDL_Renderer* renderer) {
