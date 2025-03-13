@@ -15,12 +15,29 @@ const int* TILE_SIZE=&TILE_size;
 const int* MAP_WIDTH =&MAP_width;
 const int* MAP_HEIGHT=&MAP_height;
 const int* NUM_ROCK=&NUM_rock;
+
+
+
 Fox fox;
+
+
+
 Rabbit rab;
+float nextX;
+float nextY;
+std::vector<bool> mov = { false,true,true,true };
+
+int chose=0;
+
+bool moveable = false;
+
+
 bool inMenu=true ;
 bool running;
 bool ended = false;
 bool win;
+
+Uint32 startTime;
 SDL_Window* window;
 SDL_Renderer* renderer;
 std::vector<Rock> rocks;
