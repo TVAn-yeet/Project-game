@@ -7,52 +7,35 @@
 using namespace std;
 void run() {
     startTime = SDL_GetTicks();
+    Uint32 settime = startTime;
 
     while (running) {
         Uint32 currentTime = SDL_GetTicks();
         float deltaTime = (currentTime - lastTime) / 1000.0f;
         lastTime = currentTime;
-
+        
         Uint32 elapsedTime = currentTime - startTime; 
         int seconds = elapsedTime / 1000;
-        int nextsec = 0;
         int minutes = seconds / 60;
         seconds = seconds % 60;
+        
         if (inMenu == true && ended == false) {
             handleMenuEvents();
             renderMenu();
         }
         else {
             if (!ended) {
-               
-                
+          
+                if (settime < elapsedTime-10000.0f) {
+                    settime = elapsedTime;
+                    generatewolfs(tarx, tary, wolfs);
+                }
                 handleGameEvents(deltaTime);
-                renderGame();
                 Checkend();
-                if (moveable) {
-
-                    rab.move(deltaTime, fox.x, fox.y, chose);
-                    if (chose ==1||chose==3) {
-                        if((nextY - rab.y) < 6 && (nextY - rab.y) > -6)
-                            moveable = false;
-
-                        
-                    }
-                    else {
-                        if ((nextX - rab.x) < 6 && (nextX - rab.x) > -6)
-                            moveable = false;
-                    }
-                    for (int i : mov) {
-                        cout << i << " ";
-                    }
-                    cout <<chose<<' ';
-                    cout << endl;
-                }
-                else {
-                    
-                    rab.checkmove(fox.x, fox.y, chose, mov, nextX, nextY, moveable);
-                    
-                }
+                rabmove(deltaTime);
+                wolfsmove(deltaTime);
+                renderGame();
+                
             }
             else {
                 if (win) {
@@ -71,7 +54,10 @@ void run() {
 
 int main(int argc, char* argv[]) {
     CheckError();
+    generateGrass();
     generateRock();
+    
+    generatewolfs(tarx,tary,wolfs);
     running = true;
     if (running) {
         run();
