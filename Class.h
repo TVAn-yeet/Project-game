@@ -70,6 +70,7 @@ public:
 
 class Grass {
 public:
+    int set;
     int x, y;
     SDL_Rect rect;
     bool active;
@@ -81,8 +82,13 @@ public:
         rect = { x, y, 40, 40 };
     }
 
-    void render(SDL_Renderer* renderer) {
+    void render1(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+
+    void render2(SDL_Renderer* renderer) {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
         SDL_RenderFillRect(renderer, &rect);
     }
 };
@@ -132,10 +138,10 @@ public:
             if (mov[i]==true) {
                 
                 switch (i) {
-                case 0: tempX -= 80; break;
-                case 1: tempY += 81; break;
-                case 2: tempX += 80; break;
-                case 3: tempY -= 81; break;
+                case 0: tempX -= 150; break;
+                case 1: tempY += 150; break;
+                case 2: tempX += 150; break;
+                case 3: tempY -= 150; break;
                 default: break;
                 }
                 if (tempX < 0) tempX = tempX + 800 - rect.w;
@@ -157,7 +163,7 @@ public:
                 }
                 float dist = dist1*dist1+dist2*dist2;
                
-                std::cout <<i<<' ' << dist << ' ';
+               
                 if (dist > maxDistance ) {
                     maxDistance = dist;
                     chose = i;
@@ -181,6 +187,61 @@ public:
 
     void render(SDL_Renderer* renderer) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+        SDL_RenderFillRect(renderer, &rect);
+    }
+};
+class Wolf {
+public:
+    int x, y;
+    bool active;
+    bool death;
+    SDL_Rect rect;
+    float WOLF_SPEED = 400.0f;
+
+    Wolf(int startX, int startY, bool startA, bool startD) {
+        x = startX;
+        y = startY;
+        active = startA;
+        death = startD;
+        rect = { static_cast<int>(x)+10, static_cast<int>(y)+10, 20, 20 };
+    }
+
+    void move(int &tarx, int& tary, float deltaTime, std::vector<Rock>& rocks) {
+        if (abs(x - tarx) > 3 || abs(y - tary) > 3) {
+            int dx = (x != tarx) ? (tarx - x) / abs(x - tarx) : 0;
+            int dy = (y != tary) ? (tary - y) / abs(y - tary) : 0;
+            x += dx*WOLF_SPEED * deltaTime;
+            y += dy*WOLF_SPEED * deltaTime;
+
+
+            if (x < 0) x = 800 - rect.w;
+            if (x + rect.w > 800) x = 0;
+            if (y < 0) y = 600 - rect.h;
+            if (y + rect.h > 600) y = 0;
+
+            rect.x = static_cast<int>(x);
+            rect.y = static_cast<int>(y);
+
+            for (int i = 0; i < rocks.size(); ++i) {
+                SDL_Rect rockRect = rocks[i].rect;
+
+                if (SDL_HasIntersection(&rect, &rockRect)) {
+                    death = true;
+                    break;
+                }
+            }
+
+            rect.x = static_cast<int>(x);
+            rect.y = static_cast<int>(y);
+        }
+        else {
+            death = true;
+        }
+    }
+
+    
+    void render(SDL_Renderer* renderer) {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
         SDL_RenderFillRect(renderer, &rect);
     }
 };
