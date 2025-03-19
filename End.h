@@ -6,7 +6,13 @@ void handleEnd(){
             switch (e.key.keysym.sym) {
             case SDLK_RETURN: {
                 rocks.clear();
+                wolfs.clear();
+                tarx.clear();
+                tary.clear();
+                generateGrass();
                 generateRock();
+                
+                generatewolfs(tarx, tary, wolfs);
                 fox.x = 0;
                 fox.y = 0;
                 
