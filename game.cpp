@@ -4,6 +4,7 @@
 #include "Class.h"
 #include "Var.h"
 #include "End.h"
+
 using namespace std;
 void run() {
     startTime = SDL_GetTicks();
@@ -18,6 +19,8 @@ void run() {
         int seconds = elapsedTime / 1000;
         int minutes = seconds / 60;
         seconds = seconds % 60;
+
+       
         
         if (inMenu == true && ended == false) {
             handleMenuEvents();
@@ -25,15 +28,16 @@ void run() {
         }
         else {
             if (!ended) {
-          
+                
                 if (settime < elapsedTime-10000.0f) {
                     settime = elapsedTime;
                     generatewolfs(tarx, tary, wolfs);
                 }
-                handleGameEvents(deltaTime);
+                handleGameEvents(deltaTime,foxpic);
                 Checkend();
                 rabmove(deltaTime);
                 wolfsmove(deltaTime);
+                
                 renderGame();
                 
             }
@@ -49,6 +53,8 @@ void run() {
             }
         }
         SDL_Delay(16);
+        
+
     }
 }
 
@@ -56,8 +62,7 @@ int main(int argc, char* argv[]) {
     CheckError();
     generateGrass();
     generateRock();
-    
-    generatewolfs(tarx,tary,wolfs);
+    generatewolfs(tarx, tary, wolfs);
     running = true;
     if (running) {
         run();
