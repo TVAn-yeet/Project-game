@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_image.h>
 #include "Class.h"
 #include <vector>
 
@@ -20,19 +21,20 @@ const int* NUM_ROCK=&NUM_rock;
 
 
 Fox fox;
-
-
+bool foxpic;
 
 Rabbit rab;
 float nextX;
 float nextY;
 std::vector<bool> mov = { false,true,true,true };
 int chose=0;
+bool moveable = false;
+bool rabpic=1;
 
 std::vector<int> tarx, tary;
 std::vector<Wolf> wolfs;
 
-bool moveable = false;
+
 
 
 bool inMenu=true ;
@@ -43,6 +45,19 @@ bool win;
 Uint32 startTime;
 SDL_Window* window;
 SDL_Renderer* renderer;
+SDL_Texture* background ;
+SDL_Texture* wolfgrass;
+SDL_Texture* rockpic;
+SDL_Texture* fox1;
+SDL_Texture* fox2;
+SDL_Texture* rab1;
+SDL_Texture* rab2;
+SDL_Texture* wolf1;
+SDL_Texture* wolf2;
+SDL_Texture* winpic;
+SDL_Texture* losepic;
+SDL_Texture* menupic;
+
 std::vector<Rock> rocks;
 int grass[20][15];
 
