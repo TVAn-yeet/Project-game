@@ -6,36 +6,38 @@
 #include "Var.h"
 
 void renderGame() {
+   
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
     SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+    
+    
+    SDL_RenderCopy(renderer, background, NULL, NULL);
+
     for (int i = 0; i < *MAP_HEIGHT; ++i) {
         for (int j = 0; j < *MAP_WIDTH; ++j) {  
-            if (grass[j][i] == 1) {
-                Grass g = Grass(j * *TILE_SIZE, i * *TILE_SIZE, false);
-                g.render1(renderer);
-            }
+            
             if (grass[j][i] == 2) {
                 Grass g = Grass(j * *TILE_SIZE, i * *TILE_SIZE, true);
-                g.render2(renderer);
+                grassrender(renderer,g.x,g.y,wolfgrass);
             }
         }
     }
     for (int i = 0; i < rocks.size(); ++i) {
-        rocks[i].render(renderer);
+        rocks[i].render(renderer,rockpic);
     }
-    fox.render(renderer);
-    rab.render(renderer);
-    for (Wolf i : wolfs) {
-        if (i.active) {
-            i.render(renderer);
+    fox.render(renderer,fox1,fox2,foxpic);
+    rab.render(renderer,rab1, rab2, rabpic, chose);
+    for (int i = 0;i < wolfs.size();++i) {
+        if (wolfs[i].active) {
+            wolfs[i].render(renderer, wolf1, wolf2, tarx[i]);
         }
     }
     SDL_RenderPresent(renderer);
 }
 
 
-void handleGameEvents(float deltaTime) {
+void handleGameEvents(float deltaTime, bool& foxpic) {
     SDL_Event e;
     float dx = 0, dy = 0;
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
@@ -50,9 +52,11 @@ void handleGameEvents(float deltaTime) {
     else {
         if (currentKeyStates[SDL_SCANCODE_LEFT]) {
             dx = -fox.FOX_SPEED;
+            foxpic = 0;
         }
         if (currentKeyStates[SDL_SCANCODE_RIGHT]) {
             dx = fox.FOX_SPEED;
+            foxpic = 1;
         }
         if (currentKeyStates[SDL_SCANCODE_UP]) {
             dy = -fox.FOX_SPEED;
