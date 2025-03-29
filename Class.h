@@ -1,9 +1,27 @@
 #pragma once
 
 #include <SDL.h>
+#include "SDLwr.h"
+
 #include "Var.h"
 #include <vector>  
 #include<iostream>
+#include <SDL_image.h>
+
+
+
+void renderTexture(SDL_Texture* texture, int x, int y,
+    SDL_Renderer* renderer)
+{
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+
+    SDL_RenderCopy(renderer, texture, NULL, &dest);
+}
+
+
 
 class Rock {
 public:
@@ -16,15 +34,14 @@ public:
         rect = { x, y, 40, 40 }; 
     }
 
-    void render(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 150, 75, 0, 255); 
-        SDL_RenderFillRect(renderer, &rect);
+    void render(SDL_Renderer* renderer, SDL_Texture* rockpic) {
+        renderTexture(rockpic, x, y, renderer);
     }
 };
 
 class Fox {
 public:
-    const float FOX_SPEED = 200.0f;
+    const float FOX_SPEED = 250.0f;
     float x, y;
     SDL_Rect rect;
 
@@ -62,9 +79,13 @@ public:
         rect.y = static_cast<int>(y);
     }
 
-    void render(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255); 
-        SDL_RenderFillRect(renderer, &rect);
+    void render(SDL_Renderer* renderer, SDL_Texture* fox1, SDL_Texture* fox2, bool& foxpic) {
+        if (foxpic == 0) {
+            renderTexture(fox1, x-10, y-10, renderer);
+        }
+        else {
+            renderTexture(fox2, x-10, y-10, renderer);
+        }
     }
 };
 
@@ -80,18 +101,15 @@ public:
         y = startY;
         active = startA;
         rect = { x, y, 40, 40 };
-    }
+    } 
 
-    void render1(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 0, 100, 0, 0);
-        SDL_RenderFillRect(renderer, &rect);
-    }
-
-    void render2(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
-        SDL_RenderFillRect(renderer, &rect);
-    }
+    
+        
 };
+void grassrender(SDL_Renderer* renderer,int x, int y, SDL_Texture* wolfgrass) {
+    renderTexture(wolfgrass, x, y, renderer);
+}
+
 
 class Rabbit {
 public:
@@ -185,9 +203,19 @@ public:
         moveable = true;
     }
 
-    void render(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
-        SDL_RenderFillRect(renderer, &rect);
+    void render(SDL_Renderer* renderer, SDL_Texture* rab1, SDL_Texture* rab2,bool& rabpic, int&chose) {
+        if (chose == 0) {
+            rabpic = 0;
+        }
+        if (chose == 2) {
+            rabpic = 1;
+        }
+        if (rabpic == 0) {
+            renderTexture(rab1, x-10, y-10, renderer);
+        }
+        else {
+            renderTexture(rab2, x-10, y-10, renderer);
+        }
     }
 };
 class Wolf {
@@ -197,6 +225,8 @@ public:
     bool death;
     SDL_Rect rect;
     float WOLF_SPEED = 400.0f;
+
+    Wolf() : x(-1), y(-1), rect{ -40, -40, 20, 20 } {}
 
     Wolf(int startX, int startY, bool startA, bool startD) {
         x = startX;
@@ -240,8 +270,12 @@ public:
     }
 
     
-    void render(SDL_Renderer* renderer) {
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-        SDL_RenderFillRect(renderer, &rect);
+    void render(SDL_Renderer* renderer, SDL_Texture* wolf1, SDL_Texture* wolf2, int& tarx) {
+        if (x-tarx>0) {
+            renderTexture(wolf1, x - 10, y - 10, renderer);
+        }
+        else {
+            renderTexture(wolf2, x - 10, y - 10, renderer);
+        }
     }
 };
