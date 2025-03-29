@@ -40,16 +40,12 @@ void handleEnd(){
 void renderWin(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    SDL_Rect menuRect = { *WINDOW_WIDTH / 4, *WINDOW_HEIGHT / 3, *WINDOW_WIDTH / 2, 100 };
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderFillRect(renderer, &menuRect);
+    SDL_RenderCopy(renderer, winpic, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
 void renderLose(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    SDL_Rect menuRect = { *WINDOW_WIDTH / 4, *WINDOW_HEIGHT / 3, *WINDOW_WIDTH / 2, 100 };
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-    SDL_RenderFillRect(renderer, &menuRect);
+    SDL_RenderCopy(renderer, losepic, NULL, NULL);
     SDL_RenderPresent(renderer);
 }
