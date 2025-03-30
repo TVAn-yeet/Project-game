@@ -50,4 +50,5 @@ Mức độ sử dụng AI:
 
 
   Lưu ý: khi kéo thả cửa sổ game thỏ sẽ có thể sẽ chạy bất thường (đây là tính năng không phải bug)
+         do SDLgettick ko ổn định nên xảy ra trường hợp khi vào game xuất hiện 6 con sói
     
