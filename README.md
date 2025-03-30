@@ -1,3 +1,5 @@
+Họ và tên: Trần Việt An - 24020005
+
 Tên game: Cat Chit
 Bối cảnh:
   Bạn là một con cáo đói. Bạn nhìn thấy một con thỏ và cần phải bắt lấy nó. Nhưng kẻ đi săn không chỉ có một.
